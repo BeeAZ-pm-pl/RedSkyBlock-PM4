@@ -13,6 +13,16 @@ class Generate extends Task {
 
   private $generator;
 
+  public $plugin;
+
+  public $sender;
+
+  public $lastX;
+ 
+  public $lastZ;
+
+  private $world;
+
   public function __construct($plugin, Player $sender, Int $lastX, Int $lastZ, World $world) {
 
     $this->plugin = $plugin;
