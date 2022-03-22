@@ -2,12 +2,14 @@
 
 namespace RedCraftPE\RedSkyBlock;
 
-use pocketmine\event\listener;
+use pocketmine\event\Listener;
 use pocketmine\event\block\BlockBreakEvent;
 
 use Ifera\ScoreHud\event\TagsResolveEvent;
 
 class ScoreboardListener implements Listener {
+
+  private $plugin;
 
   public function __construct($plugin) {
     
