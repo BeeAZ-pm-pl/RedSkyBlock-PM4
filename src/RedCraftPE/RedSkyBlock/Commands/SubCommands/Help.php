@@ -55,7 +55,6 @@ class Help {
           return true;
         }
       }
-      return true;
     } else {
 
       $sender->sendMessage(TextFormat::RED . "You don't have permission to use this command.");
