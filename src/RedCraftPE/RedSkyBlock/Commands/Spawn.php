@@ -32,7 +32,7 @@ class Spawn {
           $sender->setFlying(false);
         }
         $sender->teleport($spawn);
-        $position = new Position(12, -7, 14);
+        $position = new Position(12, -7, 14, $spawn);
         return true;
       } else {
 
