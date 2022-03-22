@@ -7,6 +7,8 @@ use pocketmine\utils\TextFormat;
 
 class Remove {
 
+  public $plugin;
+
   public function __construct($plugin) {
 
     $this->plugin = $plugin;
