@@ -10,6 +10,8 @@ use pocketmine\world\World;
 use RedCraftPE\RedSkyBlock\Tasks\NetherGenerate;
 
 class Nether {
+  
+  public $plugin;
 
   public function __construct($plugin) {
 
@@ -45,8 +47,10 @@ class Nether {
                 $x = $playerData["Nether Spawn"][0];
                 $y = $playerData["Nether Spawn"][1];
                 $z = $playerData["Nether Spawn"][2];
-                $sender->teleport(new Position($x, $y, $z, $netherWorld));
-                $sender->setImmobile(true);
+                if($sender instanceof \pocketmine\player\Player){
+                  $sender->teleport(new Position($x, $y, $z, $netherWorld));
+                  $sender->setImmobile(true);
+                }
                 //generate nether island:
                 $plugin->getScheduler()->scheduleDelayedTask(new NetherGenerate($plugin, $sender, $x - 3, $z - 3, $netherWorld), 50); //- 3 & - 3 there to sync where nether and overworld islands are spawned.
                 $sender->sendMessage(TextFormat::GREEN . "You have created your Nether SkyBlock Island.");
