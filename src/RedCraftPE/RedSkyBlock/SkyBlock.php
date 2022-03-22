@@ -22,7 +22,7 @@ use RedCraftPE\RedSkyBlock\Blocks\Lava;
 class SkyBlock extends PluginBase {
 
   private $eventListener;
-
+  private $skyblock;
   private $island;
   private $spawn;
 
