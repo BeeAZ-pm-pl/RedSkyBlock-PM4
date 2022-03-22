@@ -11,7 +11,6 @@ use pocketmine\world\World;
 
 class NetherGenerate extends Task {
 
-  private $netherGenerator;
 
   public $plugin;
 
