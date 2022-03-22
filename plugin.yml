@@ -3,6 +3,7 @@ author: RedCraftPE
 version: 5.0.4
 api: 4.0.0
 main: RedCraftPE\RedSkyBlock\SkyBlock
+softdepend: [ScoreHud]
 commands:
   island:
     description: This is the main command for RedSkyBlock.
