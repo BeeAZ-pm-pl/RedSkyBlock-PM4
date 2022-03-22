@@ -6,6 +6,8 @@ use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat;
 
 class NetherZone {
+  
+  public $plugin;
 
   public function __construct($plugin) {
 
