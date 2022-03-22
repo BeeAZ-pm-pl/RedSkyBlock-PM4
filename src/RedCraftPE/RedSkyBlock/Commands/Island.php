@@ -122,111 +122,111 @@ class Island {
         case "add":
 
           return $this->add->onAddCommand($sender, $args);
-        break;
+        
         case "ban":
 
           return $this->ban->onBanCommand($sender, $args);
-        break;
+        
         case "banned":
 
           return $this->banned->onBannedCommand($sender);
-        break;
+        
         case "create":
 
           return $this->create->onCreateCommand($sender);
-        break;
+        
         case "cw":
         case "createworld":
 
           return $this->createWorld->onCreateWorldCommand($sender, $args);
-        break;
+        
         case "customspawn":
 
           return $this->customSpawn->onCustomSpawnCommand($sender);
-        break;
+        
         case "delete":
 
           return $this->delete->onDeleteCommand($sender, $args);
-        break;
+        
         case "fly":
 
           return $this->fly->onFlyCommand($sender);
-        break;
+        
         case "help":
 
           return $this->help->onHelpCommand($sender, $args);
-        break;
+        
         case "kick":
 
           return $this->kick->onKickCommand($sender, $args);
-        break;
+        
         case "leave":
 
           return $this->leave->onLeaveCommand($sender, $args);
-        break;
+        
         case "lock":
 
           return $this->lock->onLockCommand($sender, $args);
-        break;
+        
         case "members":
 
           return $this->members->onMembersCommand($sender);
-        break;
+        
         case "name":
         case "rename":
 
           return $this->name->onNameCommand($sender, $args);
-        break;
+        
         case "nether":
 
           return $this->nether->onNetherCommand($sender);
-        break;
+        
         case "netherspawn":
 
           return $this->netherSpawn->onNetherSpawnCommand($sender);
-        break;
+        
         case "netherzone":
 
           return $this->netherZone->onNetherZoneCommand($sender, $args);
-        break;
+        
         case "on":
 
           return $this->on->onOnCommand($sender);
-        break;
+        
         case "rank":
 
           return $this->rank->onRankCommand($sender);
-        break;
+        
         case "reload":
 
           return $this->reload->onReloadCommand($sender);
-        break;
+        
         case "remove":
 
           return $this->remove->onRemoveCommand($sender, $args);
-        break;
+        
         case "restart":
         case "reset":
 
           return $this->restart->onRestartCommand($sender);
-        break;
+        
         case "setspawn":
 
           return $this->setSpawn->onSetSpawnCommand($sender);
-        break;
+       
         case "sw":
         case "setworld":
 
           return $this->setWorld->onSetWorldCommand($sender, $args);
-        break;
+       
         case "setzone":
 
           return $this->setzone->onSetZoneCommand($sender, $args);
-        break;
+       
         case "size":
 
           return $this->size->onSizeCommand($sender, $args);
-        break;
+      
         case "spawn":
         case "goto":
         case "go":
@@ -235,25 +235,25 @@ class Island {
         case "visit":
 
           return $this->teleport->onTeleportCommand($sender, $args);
-        break;
+        
         case "top":
         case "leaderboard":
         case "lb":
 
           return $this->top->onTopCommand($sender);
-        break;
+        
         case "unban":
 
           return $this->unban->onUnbanCommand($sender, $args);
-        break;
+      
         case "updatezone":
 
           return $this->updateZone->onUpdateZoneCommand($sender, $args);
-        break;
+        
         case "value":
 
           return $this->value->onValueCommand($sender);
-        break;
+      
       }
       return $this->help->onHelpCommand($sender, $args);
     }
