@@ -30,7 +30,7 @@ class NetherZone {
 
           $netherZone = $plugin->cfg->get("Nether Zone", []);
 
-          if ($args[1] === "1") {
+          if ($args[1] == "1") {
             if($sender instanceof \pocketmine\player\Player){
               $x = round($sender->getPosition()->getX());
               $y = round($sender->getPosition()->getY());
@@ -45,7 +45,7 @@ class NetherZone {
               $sender->sendMessage(TextFormat::GREEN . "The first position of your nether island zone has been set.");
               return true;
 
-            } elseif ($args[1] === "2") {
+            } elseif ($args[1] == "2") {
               $x = round($sender->getPosition()->getX());
               $y = round($sender->getPosition()->getY());
               $z = round($sender->getPosition()->getZ());
