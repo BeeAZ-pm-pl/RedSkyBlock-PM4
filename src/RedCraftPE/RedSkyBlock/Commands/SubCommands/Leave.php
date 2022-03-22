@@ -7,6 +7,8 @@ use pocketmine\utils\TextFormat;
 use pocketmine\player\Player;
 
 class Leave {
+  
+  public $plugin;
 
   public function __construct($plugin) {
 
