@@ -12,6 +12,8 @@ class SetWorld {
 
   private static $instance;
 
+  public $plugin;
+
   public function __construct($plugin) {
 
     self::$instance = $this;
