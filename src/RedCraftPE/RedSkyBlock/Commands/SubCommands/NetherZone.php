@@ -33,32 +33,30 @@ class NetherZone {
               $x = round($sender->getPosition()->getX());
               $y = round($sender->getPosition()->getY());
               $z = round($sender->getPosition()->getZ());
-            }
 
-            $netherZone[0] = $x;
-            $netherZone[1] = $y;
-            $netherZone[2] = $z;
+              $netherZone[0] = $x;
+              $netherZone[1] = $y;
+              $netherZone[2] = $z;
 
-            $plugin->cfg->set("Nether Zone", $netherZone);
-            $plugin->cfg->save();
-            $sender->sendMessage(TextFormat::GREEN . "The first position of your nether island zone has been set.");
-            return true;
+              $plugin->cfg->set("Nether Zone", $netherZone);
+              $plugin->cfg->save();
+              $sender->sendMessage(TextFormat::GREEN . "The first position of your nether island zone has been set.");
+              return true;
 
-          } elseif ($args[1] === "2") {
-            if($sender instanceof \pocketmine\player\Player){
+            } elseif ($args[1] === "2") {
               $x = round($sender->getPosition()->getX());
               $y = round($sender->getPosition()->getY());
               $z = round($sender->getPosition()->getZ());
+
+              $netherZone[3] = $x;
+              $netherZone[4] = $y;
+              $netherZone[5] = $z;
+
+              $plugin->cfg->set("Nether Zone", $netherZone);
+              $plugin->cfg->save();
+              $sender->sendMessage(TextFormat::GREEN . "The second position of your nether island zone has been set.");
+              return true;
             }
-
-            $netherZone[3] = $x;
-            $netherZone[4] = $y;
-            $netherZone[5] = $z;
-
-            $plugin->cfg->set("Nether Zone", $netherZone);
-            $plugin->cfg->save();
-            $sender->sendMessage(TextFormat::GREEN . "The second position of your nether island zone has been set.");
-            return true;
 
           } else {
 
