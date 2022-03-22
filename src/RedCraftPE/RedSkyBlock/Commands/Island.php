@@ -38,6 +38,7 @@ use RedCraftPE\RedSkyBlock\Commands\SubCommands\Top;
 use RedCraftPE\RedSkyBlock\Commands\SubCommands\Unban;
 use RedCraftPE\RedSkyBlock\Commands\SubCommands\UpdateZone;
 use RedCraftPE\RedSkyBlock\Commands\SubCommands\Value;
+use RedCraftPE\RedSkyBlock\SkyBlock;
 
 class Island {
 
@@ -72,8 +73,9 @@ class Island {
   private $unban;
   private $updateZone;
   private $value;
+  private $plugin;
 
-  public function __construct($plugin) {
+  public function __construct(SkyBlock $plugin) {
 
     $this->plugin = $plugin;
 
