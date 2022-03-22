@@ -6,6 +6,8 @@ use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat;
 
 class On {
+  
+  public $plugin;
 
   public function __construct($plugin) {
 
