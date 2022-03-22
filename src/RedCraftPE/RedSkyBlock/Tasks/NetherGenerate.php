@@ -44,11 +44,10 @@ class NetherGenerate extends Task {
       for ($y = 80; $y <= 80 + (max($y1, $y2) - min($y1, $y2)); $y++) {
 
         for ($z = $spawnZ; $z <= $spawnZ + (max($z1, $z2) - min($z1, $z2)); $z++) {
-          $world = $this->netherWorld;
            
           $block = explode(" ", $netherBlocks[$counter]);
-          $world->loadChunk($x, $z)
-          $world->setBlock(new Vector3($x, $y, $z), BlockFactory::getInstance()->get($block[0], $block[1]), false);
+          $this->netherWorld->loadChunk($x, $z)
+          $this->netherWorld->setBlock(new Vector3($x, $y, $z), BlockFactory::getInstance()->get($block[0], $block[1]), false);
           $counter++;
         }
       }
