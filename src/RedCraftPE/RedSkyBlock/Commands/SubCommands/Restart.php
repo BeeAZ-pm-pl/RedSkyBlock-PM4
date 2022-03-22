@@ -9,6 +9,10 @@ use RedCraftPE\RedSkyBlock\Commands\SubCommands\Create;
 
 class Restart {
 
+  public $plugin;
+
+  public $create;
+
   public function __construct($plugin) {
 
     $this->plugin = $plugin;
