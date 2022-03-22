@@ -11,8 +11,6 @@ use pocketmine\world\World;
 
 class Generate extends Task {
 
-  private $generator;
-
   public $plugin;
 
   public $sender;
