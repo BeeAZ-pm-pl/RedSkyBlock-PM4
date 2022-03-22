@@ -6,6 +6,8 @@ use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat;
 
 class CustomSpawn {
+  
+  public $plugin;
 
   public function __construct($plugin) {
 
@@ -14,7 +16,7 @@ class CustomSpawn {
 
   public function onCustomSpawnCommand(CommandSender $sender): bool {
 
-    if ($sender->hasPermission("redskyblock.updatezone")) {
+    if ($sender->hasPermission("redskyblock.updatezone") and $sender instanceof \pocketmine\player\Player) {
 
       $plugin = $this->plugin;
       $islandZone = $plugin->cfg->get("Island Zone", []);
@@ -42,7 +44,7 @@ class CustomSpawn {
 
           $zoneX = min($posOneX, $posTwoX);
           $zoneZ = min($posOneZ, $posTwoZ);
-
+      
           $playerX = round($sender->getPosition()->getX());
           $playerZ = round($sender->getPosition()->getZ());
 
