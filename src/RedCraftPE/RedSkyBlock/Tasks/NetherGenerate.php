@@ -12,7 +12,6 @@ use pocketmine\world\World;
 class NetherGenerate extends Task {
 
   private $netherGenerator;
-  private $netherWorld;
 
   public function __construct($plugin, Player $sender, Int $x, Int $z, World $netherWorld) {
 
@@ -28,6 +27,7 @@ class NetherGenerate extends Task {
     $plugin = $this->plugin;
     $spawnX = $this->x;
     $spawnZ = $this->z;
+    $netherWorld = $this->netherWorld;
 
     $netherZone = $plugin->cfg->get("Nether Zone");
     $netherBlocks = $plugin->skyblock->get("Nether Blocks");
@@ -46,8 +46,8 @@ class NetherGenerate extends Task {
         for ($z = $spawnZ; $z <= $spawnZ + (max($z1, $z2) - min($z1, $z2)); $z++) {
            
           $block = explode(" ", $netherBlocks[$counter]);
-          $this->netherWorld->loadChunk($x, $z)
-          $this->netherWorld->setBlock(new Vector3($x, $y, $z), BlockFactory::getInstance()->get($block[0], $block[1]), false);
+          $netherWorld->loadChunk($x, $z);
+          $netherWorld->setBlock(new Vector3($x, $y, $z), BlockFactory::getInstance()->get($block[0], $block[1]), false);
           $counter++;
         }
       }
