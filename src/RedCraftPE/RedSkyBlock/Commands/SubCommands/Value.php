@@ -7,6 +7,8 @@ use pocketmine\utils\TextFormat;
 
 class Value {
 
+  public $plugin;
+
   public function __construct($plugin) {
 
     $this->plugin = $plugin;
