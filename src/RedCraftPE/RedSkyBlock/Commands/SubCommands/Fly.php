@@ -7,6 +7,8 @@ use pocketmine\utils\TextFormat;
 use pocketmine\player\Player;
 
 class Fly {
+  
+  public $plugin;
 
   public function __construct($plugin) {
 
@@ -63,5 +65,6 @@ class Fly {
       $sender->sendMessage(TextFormat::RED . "You don't have permission to use this command.");
       return true;
     }
+    return true;
   }
 }
