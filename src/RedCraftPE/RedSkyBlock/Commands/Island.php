@@ -38,7 +38,6 @@ use RedCraftPE\RedSkyBlock\Commands\SubCommands\Top;
 use RedCraftPE\RedSkyBlock\Commands\SubCommands\Unban;
 use RedCraftPE\RedSkyBlock\Commands\SubCommands\UpdateZone;
 use RedCraftPE\RedSkyBlock\Commands\SubCommands\Value;
-use RedCraftPE\RedSkyBlock\SkyBlock;
 
 class Island {
 
