@@ -13,6 +13,16 @@ class NetherGenerate extends Task {
 
   private $netherGenerator;
 
+  public $plugin;
+
+  public $sender;
+
+  public $x;
+
+  public $z;
+
+  public $netherWorld;
+
   public function __construct($plugin, Player $sender, Int $x, Int $z, World $netherWorld) {
 
     $this->plugin = $plugin;
