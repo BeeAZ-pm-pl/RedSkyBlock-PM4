@@ -7,6 +7,8 @@ use pocketmine\utils\TextFormat;
 
 class Rank {
 
+  public $plugin;
+
   public function __construct($plugin) {
 
     $this->plugin = $plugin;
