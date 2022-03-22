@@ -40,7 +40,7 @@ class NetherSpawn {
 
             $playerDataEncoded = json_encode($playerData);
             file_put_contents($filePath, $playerDataEncoded);
-            $sender->sendMessage(TextFormat::GREEN . "Your nether island spawn point has been set to " . TextFormat::WHITE . (int) round($sender->getX()) . TextFormat::GREEN . ", " . TextFormat::WHITE . (int) round($sender->getY()) . TextFormat::GREEN . ", " . TextFormat::WHITE . (int) round($sender->getZ()) . TextFormat::GREEN . ".");
+            $sender->sendMessage(TextFormat::GREEN . "Your nether island spawn point has been set to " . TextFormat::WHITE . (int) round($sender->getPosition()->getX()) . TextFormat::GREEN . ", " . TextFormat::WHITE . (int) round($sender->getPosition()->getY()) . TextFormat::GREEN . ", " . TextFormat::WHITE . (int) round($sender->getPosition()->getZ()) . TextFormat::GREEN . ".");
             return true;
           } else {
 
