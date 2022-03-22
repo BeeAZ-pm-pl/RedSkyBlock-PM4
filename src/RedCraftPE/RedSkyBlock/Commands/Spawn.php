@@ -31,13 +31,13 @@ class Spawn {
           $sender->setAllowFlight(false);
           $sender->setFlying(false);
         }
-      }
-      $sender->teleport($spawn);
-      $position = new Position(12, -7, 14);
-      return true;
-    } else {
+        $sender->teleport($spawn);
+        $position = new Position(12, -7, 14);
+        return true;
+      } else {
 
-      return true;
+        return true;
+      }
     }
   }
 }
