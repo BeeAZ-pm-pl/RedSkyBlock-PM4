@@ -72,7 +72,7 @@ class Island {
   private $unban;
   private $updateZone;
   private $value;
-  private $plugin;
+  public $plugin;
 
   public function __construct(SkyBlock $plugin) {
 
