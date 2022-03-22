@@ -6,6 +6,8 @@ use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat;
 
 class Help {
+  
+  public $plugin;
 
   public function __construct($plugin) {
 
@@ -58,5 +60,6 @@ class Help {
 
       $sender->sendMessage(TextFormat::RED . "You don't have permission to use this command.");
     }
+    return true;
   }
 }
