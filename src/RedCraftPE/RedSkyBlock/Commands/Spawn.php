@@ -10,6 +10,8 @@ use pocketmine\world\Position;
 use pocketmine\math\Vector3;
 
 class Spawn {
+  
+  public $plugin;
 
   public function __construct($plugin) {
 
