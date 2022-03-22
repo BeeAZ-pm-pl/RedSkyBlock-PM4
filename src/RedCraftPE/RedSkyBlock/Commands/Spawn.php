@@ -8,7 +8,7 @@ use pocketmine\player\GameMode;
 use pocketmine\utils\TextFormat;
 use pocketmine\world\Position;
 use pocketmine\math\Vector3;
-
+use pocketmine\player\Player;
 class Spawn {
   
   public $plugin;
@@ -26,10 +26,11 @@ class Spawn {
     if ($plugin->cfg->get("Spawn Command") === "on") {
 
       $spawn = $plugin->getServer()->getWorldManager()->getDefaultWorld()->getSafeSpawn();
-
-      if ($sender->getGamemode() === GameMode::SURVIVAL()) {
-        $sender->setAllowFlight(false);
-        $sender->setFlying(false);
+      if($sender instanceof Player){
+        if ($sender->getGamemode() === GameMode::SURVIVAL()) {
+          $sender->setAllowFlight(false);
+          $sender->setFlying(false);
+        }
       }
       $sender->teleport($spawn);
       $position = new Position(12, -7, 14);
