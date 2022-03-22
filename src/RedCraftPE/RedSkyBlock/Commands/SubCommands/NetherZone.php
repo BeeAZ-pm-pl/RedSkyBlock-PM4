@@ -29,10 +29,11 @@ class NetherZone {
           $netherZone = $plugin->cfg->get("Nether Zone", []);
 
           if ($args[1] === "1") {
-
-            $x = round($sender->getPosition()->getX());
-            $y = round($sender->getPosition()->getY());
-            $z = round($sender->getPosition()->getZ());
+            if($sender instanceof \pocketmine\player\Player){
+              $x = round($sender->getPosition()->getX());
+              $y = round($sender->getPosition()->getY());
+              $z = round($sender->getPosition()->getZ());
+            }
 
             $netherZone[0] = $x;
             $netherZone[1] = $y;
@@ -44,10 +45,11 @@ class NetherZone {
             return true;
 
           } elseif ($args[1] === "2") {
-
-            $x = round($sender->getPosition()->getX());
-            $y = round($sender->getPosition()->getY());
-            $z = round($sender->getPosition()->getZ());
+            if($sender instanceof \pocketmine\player\Player){
+              $x = round($sender->getPosition()->getX());
+              $y = round($sender->getPosition()->getY());
+              $z = round($sender->getPosition()->getZ());
+            }
 
             $netherZone[3] = $x;
             $netherZone[4] = $y;
