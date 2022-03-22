@@ -87,5 +87,6 @@ class Ban {
       $sender->sendMessage(TextFormat::RED . "You don't have permission to use this command.");
       return true;
     }
+    return true;
   }
 }
