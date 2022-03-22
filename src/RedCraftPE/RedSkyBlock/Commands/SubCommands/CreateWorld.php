@@ -12,8 +12,8 @@ use RedCraftPE\RedSkyBlock\SkyBlock;
 use RedCraftPE\RedSkyBlock\Commands\Island;
 
 class CreateWorld {
-
-  private $worldGenerator;
+  
+  public $plugin;
 
   public function __construct($plugin) {
 
@@ -64,5 +64,6 @@ class CreateWorld {
       $sender->sendMessage(TextFormat::RED . "You don't have permission to use this command.");
       return true;
     }
+    return true;
   }
 }
