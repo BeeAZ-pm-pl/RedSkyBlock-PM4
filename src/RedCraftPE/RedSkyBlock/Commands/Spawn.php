@@ -39,5 +39,6 @@ class Spawn {
         return true;
       }
     }
+    return true;
   }
 }
