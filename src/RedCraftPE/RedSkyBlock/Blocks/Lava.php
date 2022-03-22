@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace RedCraftPE\RedSkyBlock\Blocks;
 
+use FG\ASN1\Identifier;
+use pocketmine\block\BlockIdentifier;
+use pocketmine\block\BlockLegacyIdHelper;
+use pocketmine\block\BlockLegacyIds;
 use pocketmine\entity\Entity;
 use pocketmine\event\entity\EntityCombustByBlockEvent;
 use pocketmine\event\entity\EntityDamageByBlockEvent;
@@ -11,19 +15,22 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\item\Item;
 use pocketmine\math\Vector3;
 use pocketmine\network\mcpe\protocol\LevelSoundEventPacket;
-use pocketmine\Player;
+use pocketmine\network\mcpe\protocol\types\LevelSoundEvent;
+use pocketmine\player\Player;
 use pocketmine\block\BlockFactory;
 use pocketmine\block\Block;
 use pocketmine\block\Water;
+use pocketmine\world\BlockTransaction;
+use pocketmine\world\sound\Sound;
+use RedCraftPE\RedSkyBlock\SkyBlock;
 
 class Lava extends \pocketmine\block\Lava {
 
-	protected $id = self::FLOWING_LAVA;
-
-	public function __construct(int $meta = 0, $plugin) {
+	public function __construct(int $meta, SkyBlock $plugin, BlockIdentifier $idInfo) {
 
 		$this->meta = $meta;
 		$this->plugin = $plugin;
+		$this->idInfo = $idInfo;
 	}
 
 	public function getLightLevel() : int {
@@ -38,22 +45,22 @@ class Lava extends \pocketmine\block\Lava {
 
 	public function getStillForm() : Block{
 
-		return BlockFactory::get(Block::STILL_LAVA, $this->meta);
+		return BlockFactory::getInstance()->get(BlockLegacyIds::STILL_LAVA, $this->meta);
 	}
 
 	public function getFlowingForm() : Block{
 
-		return BlockFactory::get(Block::FLOWING_LAVA, $this->meta);
+		return BlockFactory::getInstance()->get(BlockLegacyIds::FLOWING_LAVA, $this->meta);
 	}
 
-	public function getBucketFillSound() : int{
+	public function getBucketFillSound() : Sound{
 
-		return LevelSoundEventPacket::SOUND_BUCKET_FILL_LAVA;
+		return LevelSoundEvent::BUCKET_FILL_LAVA;
 	}
 
-	public function getBucketEmptySound() : int{
+	public function getBucketEmptySound() : Sound{
 
-		return LevelSoundEventPacket::SOUND_BUCKET_EMPTY_LAVA;
+		return LevelSoundEvent::BUCKET_EMPTY_LAVA;
 	}
 
 	public function tickRate() : int{
@@ -66,7 +73,7 @@ class Lava extends \pocketmine\block\Lava {
 		return 2; //TODO: this is 1 in the nether
 	}
 
-	protected function checkForHarden() {
+	protected function checkForHarden(): bool {
 
 		$plugin = $this->plugin;
 
@@ -85,7 +92,8 @@ class Lava extends \pocketmine\block\Lava {
 
 			if($this->getDamage() === 0) {
 
-				$this->liquidCollide($colliding, BlockFactory::get(Block::OBSIDIAN));
+				$this->liquidCollide($colliding, BlockFactory::getInstance()->get(BlockLegacyIds::OBSIDIAN));
+                return true;
 
 			} elseif ($this->getDamage() <= 4) {
 
@@ -96,12 +104,14 @@ class Lava extends \pocketmine\block\Lava {
 
 					if (count($generatorOres) === 0) {
 
-						$this->liquidCollide($colliding, BlockFactory::get(Block::COBBLESTONE));
+						$this->liquidCollide($colliding, BlockFactory::getInstance()->get(BlockLegacyIds::COBBLESTONE));
+                        return true;
 					} else {
 
 						if (array_sum($generatorOres) !== 100) {
 
-							$this->liquidCollide($colliding, BlockFactory::get(Block::COBBLESTONE));
+							$this->liquidCollide($colliding, BlockFactory::getInstance()->get(BlockLegacyIds::COBBLESTONE));
+                            return true;
 						} else {
 
 							$blockID;
@@ -118,25 +128,28 @@ class Lava extends \pocketmine\block\Lava {
 									break;
 								}
 							}
-							$this->liquidCollide($colliding, Block::get($blockID));
+							$this->liquidCollide($colliding, BlockFactory::getInstance()->get($blockID));
+							return true;
 						}
 					}
 				} else {
 
-					$this->liquidCollide($colliding, BlockFactory::get(Block::COBBLESTONE));
+					$this->liquidCollide($colliding, BlockFactory::getInstance()->get(BlockLegacyIds::COBBLESTONE));
+					return true;
 				}
 			}
 		}
+		return false;
 	}
 
-	protected function flowIntoBlock(Block $block, int $newFlowDecay) : void {
+	protected function flowIntoBlock(Block $block, int $newFlowDecay, bool $falling) : void {
 
 		if ($block instanceof Water) {
 
-			$block->liquidCollide($this, BlockFactory::get(Block::STONE));
+			$block->liquidCollide($this, BlockFactory::getInstance()->get(BlockLegacyIds::STONE));
 		} else {
 
-			parent::flowIntoBlock($block, $newFlowDecay);
+			parent::flowIntoBlock($block, $newFlowDecay, $falling);
 		}
 	}
 
@@ -157,10 +170,10 @@ class Lava extends \pocketmine\block\Lava {
 		$entity->resetFallDistance();
 	}
 
-	public function place(Item $item, Block $blockReplace, Block $blockClicked, int $face, Vector3 $clickVector, Player $player = null) : bool{
+	public function place(BlockTransaction $tx, Item $item, Block $blockReplace, Block $blockClicked, int $face, Vector3 $clickVector, Player $player = null) : bool{
 
-		$ret = $this->getLevel()->setBlock($this, $this, true, false);
-		$this->getLevel()->scheduleDelayedBlockUpdate($this, $this->tickRate());
+		$ret = $this->getPosition()->getWorld()->setBlock($this, $this, true, false);
+		$this->getPosition()->getWorld()->scheduleDelayedBlockUpdate($this, $this->tickRate());
 
 		return $ret;
 	}

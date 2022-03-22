@@ -67,7 +67,7 @@ class Size {
           if ($scoreHud !== null && $scoreHud->isEnabled()) {
 
             $ev = new \Ifera\ScoreHud\event\PlayerTagUpdateEvent(
-              $plugin->getServer()->getPlayerExact($playerName),
+              $plugin->getServer()->getPlayerByPrefix($playerName),
               new \Ifera\ScoreHud\scoreboard\ScoreTag("redskyblock.islesize", strval($size))
             );
             $ev->call();

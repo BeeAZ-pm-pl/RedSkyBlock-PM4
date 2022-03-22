@@ -38,9 +38,9 @@ class UpdateZone {
             return true;
           } else {
 
-            $plugin->getServer()->loadLevel($plugin->cfg->get("Zone World"));
+            $plugin->getServer()->getWorldManager()->loadWorld($plugin->cfg->get("Zone World"));
             $zoneWorldName = $plugin->cfg->get("Zone World");
-            $zoneWorld = $plugin->getServer()->getLevelByName($zoneWorldName);
+            $zoneWorld = $plugin->getServer()->getWorldManager()->getWorldByName($zoneWorldName);
 
             if (count($args) < 2) {
 
@@ -57,10 +57,10 @@ class UpdateZone {
                 for ($y = min($y1, $y2); $y <= max($y1, $y2); $y++) {
 
                   for ($z = min($z1, $z2); $z <= max($z1, $z2); $z++) {
-
+                    $zoneWorld->loadChunk($x, $z);
                     $block = $zoneWorld->getBlockAt((int) $x, (int) $y, (int) $z, true, false);
                     $blockID = $block->getID();
-                    $blockDamage = $block->getDamage();
+                    $blockDamage = $block->getMeta();
 
                     array_push($islandBlocks, $blockID . " " . $blockDamage);
                   }
@@ -84,10 +84,10 @@ class UpdateZone {
                 for ($y = min($y1, $y2); $y <= max($y1, $y2); $y++) {
 
                   for ($z = min($z1, $z2); $z <= max($z1, $z2); $z++) {
-
+                      $zoneWorld->loadChunk($x, $z);
                     $block = $zoneWorld->getBlockAt((int) $x, (int) $y, (int) $z, true, false);
                     $blockID = $block->getID();
-                    $blockDamage = $block->getDamage();
+                    $blockDamage = $block->getMeta();
 
                     array_push($netherBlocks, $blockID . " " . $blockDamage);
                   }

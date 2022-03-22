@@ -2,13 +2,15 @@
 
 namespace RedCraftPE\RedSkyBlock;
 
+use pocketmine\block\BlockIdentifier;
+use pocketmine\block\BlockLegacyIds;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\block\BlockFactory;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\block\Block;
 use pocketmine\plugin\Plugin;
 
@@ -29,7 +31,9 @@ class SkyBlock extends PluginBase {
     $this->eventListener = new EventListener($this);
     $this->island = new Island($this);
     $this->spawn = new Spawn($this);
-    BlockFactory::registerBlock(new Lava(0, $this), true);
+    if(!BlockFactory::getInstance()->isRegistered(BlockLegacyIds::FLOWING_LAVA)){
+        BlockFactory::getInstance()->register(new Lava(0, $this, new BlockIdentifier(BlockLegacyIds::FLOWING_LAVA,0)));
+    }
 
     if (!file_exists($this->getDataFolder() . "skyblock.json")) {
 
@@ -62,19 +66,19 @@ class SkyBlock extends PluginBase {
       $masterWorld = false;
     } else {
 
-      if ($this->getServer()->loadLevel($this->skyblock->get("Master World"))) {
+      if ($this->getServer()->getWorldManager()->loadWorld($this->skyblock->get("Master World"))) {
 
-        $this->getServer()->loadLevel($this->skyblock->get("Master World"));
+        $this->getServer()->getWorldManager()->loadWorld($this->skyblock->get("Master World"));
         if ($this->cfg->get("Nether Islands")) {
 
-          $this->getServer()->loadLevel($this->skyblock->get("Master World") . "-Nether");
+          $this->getServer()->getWorldManager()->loadWorld($this->skyblock->get("Master World") . "-Nether");
         }
       } else {
 
         $this->getLogger()->info(TextFormat::RED . "Error: Unable to load the Skyblock Master world.");
       }
 
-      $masterWorld = $this->getServer()->getLevelByName($this->skyblock->get("Master World"));
+      $masterWorld = $this->getServer()->getWorldManager()->getWorldByName($this->skyblock->get("Master World"));
       if (!$masterWorld) {
 
         $this->getLogger()->info(TextFormat::RED . "The level currently set as the SkyBlock Master world does not exist.");
@@ -332,8 +336,8 @@ class SkyBlock extends PluginBase {
       $playerData = (array) json_decode($playerDataEncoded);
       $islandSize = $playerData["Island Size"];
 
-      $x = $player->getX();
-      $z = $player->getZ();
+      $x = $player->getPosition()->getX();
+      $z = $player->getPosition()->getZ();
 
       $ownerX = $spawnArray[0];
       $ownerZ = $spawnArray[1];
@@ -361,8 +365,8 @@ class SkyBlock extends PluginBase {
       $playerData = (array) json_decode($playerDataEncoded);
       $islandSize = $playerData["Island Size"];
 
-      $x = $block->getX();
-      $z = $block->getZ();
+      $x = $block->getPosition()->getX();
+      $z = $block->getPosition()->getZ();
 
       $ownerX = $spawnArray[0];
       $ownerZ = $spawnArray[1];
@@ -391,9 +395,9 @@ class SkyBlock extends PluginBase {
 
     foreach ($onlinePlayers as $p) {
 
-      $px = $p->getX();
-      $pz = $p->getZ();
-      $pWorld = $p->getLevel();
+      $px = $p->getPosition()->getX();
+      $pz = $p->getPosition()->getZ();
+      $pWorld = $p->getPosition()->getWorld();
 
       if ($pWorld->getFolderName() === $this->skyblock->get("Master World") || $pWorld->getFolderName() === $this->skyblock->get("Master World") . "-Nether") {
 

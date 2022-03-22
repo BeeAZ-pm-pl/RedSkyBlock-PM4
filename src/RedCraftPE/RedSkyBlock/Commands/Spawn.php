@@ -4,8 +4,9 @@ namespace RedCraftPE\RedSkyBlock\Commands;
 
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
+use pocketmine\player\GameMode;
 use pocketmine\utils\TextFormat;
-use pocketmine\level\Position;
+use pocketmine\world\Position;
 use pocketmine\math\Vector3;
 
 class Spawn {
@@ -22,14 +23,14 @@ class Spawn {
 
     if ($plugin->cfg->get("Spawn Command") === "on") {
 
-      $spawn = $plugin->getServer()->getDefaultLevel()->getSafeSpawn();
+      $spawn = $plugin->getServer()->getWorldManager()->getDefaultWorld()->getSafeSpawn();
 
-      if ($sender->getGamemode() === 0) {
-
+      if ($sender->getGamemode() === GameMode::SURVIVAL()) {
         $sender->setAllowFlight(false);
+        $sender->setFlying(false);
       }
       $sender->teleport($spawn);
-      $position = new Vector3(12, -7, 14);
+      $position = new Position(12, -7, 14);
       return true;
     } else {
 

@@ -27,7 +27,7 @@ class NetherSpawn {
 
         if (array_key_exists($senderName, $skyblockArray)) {
 
-          if (strtolower($sender->getName()) === $owner && $sender->getLevel()->getFolderName() === $plugin->skyblock->get("Master World") . "-Nether") {
+          if (strtolower($sender->getName()) === $owner && $sender->getWorld()->getFolderName() === $plugin->skyblock->get("Master World") . "-Nether") {
 
             $playerDataEncoded = file_get_contents($filePath);
             $playerData = (array) json_decode($playerDataEncoded, true);

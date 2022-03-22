@@ -4,6 +4,7 @@ namespace RedCraftPE\RedSkyBlock;
 
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
+use pocketmine\event\entity\EntityItemPickupEvent;
 use pocketmine\event\player\PlayerBucketEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerMoveEvent;
@@ -12,14 +13,15 @@ use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\Listener;
+use pocketmine\player\GameMode;
 use pocketmine\utils\TextFormat;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\event\entity\EntityLevelChangeEvent;
 use pocketmine\event\inventory\InventoryPickupItemEvent;
 use pocketmine\block\Block;
 use pocketmine\inventory\Inventory;
 use pocketmine\item\Item;
-use pocketmine\level\Position;
+use pocketmine\world\Position;
 use pocketmine\event\player\PlayerExhaustEvent;
 
 use RedCraftPE\RedSkyBlock\SkyBlock;
@@ -40,7 +42,7 @@ class EventListener implements Listener {
     $block = $event->getBlock();
     $plugin = $this->plugin;
 
-    if ($player->getLevel()->getFolderName() === $plugin->skyblock->get("Master World") || $player->getLevel()->getFolderName() === $plugin->skyblock->get("Master World") . "-Nether") {
+    if ($player->getWorld()->getFolderName() === $plugin->skyblock->get("Master World") || $player->getWorld()->getFolderName() === $plugin->skyblock->get("Master World") . "-Nether") {
 
       $owner = $plugin->getIslandAtBlock($block);
       $filePath = $plugin->getDataFolder() . "Players/" . $owner . ".json";
@@ -50,7 +52,7 @@ class EventListener implements Listener {
 
         if (!$player->hasPermission("redskyblock.bypass")) {
 
-          $event->setCancelled();
+          $event->cancel();
           return;
         }
       }
@@ -77,13 +79,13 @@ class EventListener implements Listener {
           if ($scoreHud !== null && $scoreHud->isEnabled()) {
 
             $ev1 = new \Ifera\ScoreHud\event\PlayerTagUpdateEvent(
-              $plugin->getServer()->getPlayerExact($owner),
-              new \Ifera\ScoreHud\scoreboard\ScoreTag("redskyblock.islevalue", strval($plugin->getIslandValue($plugin->getServer()->getPlayerExact($owner))))
+              $plugin->getServer()->getPlayerByPrefix($owner),
+              new \Ifera\ScoreHud\scoreboard\ScoreTag("redskyblock.islevalue", strval($plugin->getIslandValue($plugin->getServer()->getPlayerByPrefix($owner))))
             );
             $ev1->call();
             $ev2 = new \Ifera\ScoreHud\event\PlayerTagUpdateEvent(
-              $plugin->getServer()->getPlayerExact($owner),
-              new \Ifera\ScoreHud\scoreboard\ScoreTag("redskyblock.islerank", "#" . strval($plugin->getIslandRank($plugin->getServer()->getPlayerExact($owner))))
+              $plugin->getServer()->getPlayerByPrefix($owner),
+              new \Ifera\ScoreHud\scoreboard\ScoreTag("redskyblock.islerank", "#" . strval($plugin->getIslandRank($plugin->getServer()->getPlayerByPrefix($owner))))
             );
             $ev2->call();
           }
@@ -92,7 +94,7 @@ class EventListener implements Listener {
         }
       } else {
 
-        $event->setCancelled();
+        $event->cancel();
         return;
       }
     }
@@ -103,7 +105,7 @@ class EventListener implements Listener {
     $block = $event->getBlock();
     $plugin = $this->plugin;
 
-    if ($player->getLevel()->getFolderName() === $plugin->skyblock->get("Master World") || $player->getLevel()->getFolderName() === $plugin->skyblock->get("Master World") . "-Nether") {
+    if ($player->getWorld()->getFolderName() === $plugin->skyblock->get("Master World") || $player->getWorld()->getFolderName() === $plugin->skyblock->get("Master World") . "-Nether") {
 
       $owner = $plugin->getIslandAtBlock($block);
       $filePath = $plugin->getDataFolder() . "Players/" . $owner . ".json";
@@ -113,7 +115,7 @@ class EventListener implements Listener {
 
         if (!$player->hasPermission("redskyblock.bypass")) {
 
-          $event->setCancelled();
+          $event->cancel();
           return;
         }
       }
@@ -144,13 +146,13 @@ class EventListener implements Listener {
           if ($scoreHud !== null && $scoreHud->isEnabled()) {
 
             $ev1 = new \Ifera\ScoreHud\event\PlayerTagUpdateEvent(
-              $plugin->getServer()->getPlayerExact($owner),
-              new \Ifera\ScoreHud\scoreboard\ScoreTag("redskyblock.islevalue", strval($plugin->getIslandValue($plugin->getServer()->getPlayerExact($owner))))
+              $plugin->getServer()->getPlayerByPrefix($owner),
+              new \Ifera\ScoreHud\scoreboard\ScoreTag("redskyblock.islevalue", strval($plugin->getIslandValue($plugin->getServer()->getPlayerByPrefix($owner))))
             );
             $ev1->call();
             $ev2 = new \Ifera\ScoreHud\event\PlayerTagUpdateEvent(
-              $plugin->getServer()->getPlayerExact($owner),
-              new \Ifera\ScoreHud\scoreboard\ScoreTag("redskyblock.islerank", "#" . strval($plugin->getIslandRank($plugin->getServer()->getPlayerExact($owner))))
+              $plugin->getServer()->getPlayerByPrefix($owner),
+              new \Ifera\ScoreHud\scoreboard\ScoreTag("redskyblock.islerank", "#" . strval($plugin->getIslandRank($plugin->getServer()->getPlayerByPrefix($owner))))
             );
             $ev2->call();
           }
@@ -158,7 +160,7 @@ class EventListener implements Listener {
         }
       } else {
 
-        $event->setCancelled();
+        $event->cancel();
         return;
       }
     }
@@ -172,7 +174,7 @@ class EventListener implements Listener {
 
     if ($block->getID() === 52 ||$block->getID() === 54 || $block->getID() === 61 || $block->getID() === 62 || $block->getID() === 138 || $block->getID() === 130 || $item->getID() === 259 || $block->getID() === 145 || $block->getID() === 58 || $block->getID() === 154 || $block->getID() === 117) {
 
-      if ($player->getLevel()->getFolderName() === $plugin->skyblock->get("Master World") || $player->getLevel()->getFolderName() === $plugin->skyblock->get("Master World") . "-Nether") {
+      if ($player->getWorld()->getFolderName() === $plugin->skyblock->get("Master World") || $player->getWorld()->getFolderName() === $plugin->skyblock->get("Master World") . "-Nether") {
 
         $owner = $plugin->getIslandAtBlock($block);
         $filePath = $plugin->getDataFolder() . "Players/" . $owner . ".json";
@@ -182,7 +184,7 @@ class EventListener implements Listener {
 
           if (!$player->hasPermission("redskyblock.bypass")) {
 
-            $event->setCancelled();
+            $event->cancel();
             $player->sendMessage(TextFormat::RED . "You cannot use this here!");
             return;
           }
@@ -202,7 +204,7 @@ class EventListener implements Listener {
           return;
         } else {
 
-          $event->setCancelled();
+          $event->cancel();
           $player->sendMessage(TextFormat::RED . "You cannot use this here!");
           return;
         }
@@ -214,7 +216,7 @@ class EventListener implements Listener {
     $player = $event->getPlayer();
     $plugin = $this->plugin;
 
-    if ($player->getLevel()->getFolderName() === $plugin->skyblock->get("Master World") || $player->getLevel()->getFolderName() === $plugin->skyblock->get("Master World") . "-Nether") {
+    if ($player->getWorld()->getFolderName() === $plugin->skyblock->get("Master World") || $player->getWorld()->getFolderName() === $plugin->skyblock->get("Master World") . "-Nether") {
 
       $owner = $plugin->getIslandAtPlayer($player);
       $filePath = $plugin->getDataFolder() . "Players/" . $owner . ".json";
@@ -224,7 +226,7 @@ class EventListener implements Listener {
 
         if (!$player->hasPermission("redskyblock.bypass")) {
 
-          $event->setCancelled();
+          $event->cancel();
           $player->sendMessage(TextFormat::RED . "You cannot use this here!");
           return;
         }
@@ -244,7 +246,7 @@ class EventListener implements Listener {
         return;
       } else {
 
-        $event->setCancelled();
+        $event->cancel();
         $player->sendMessage(TextFormat::RED . "You cannot use this here!");
         return;
       }
@@ -257,18 +259,18 @@ class EventListener implements Listener {
     $plugin = $this->plugin;
     $masterWorld = $plugin->skyblock->get("Master World");
 
-    if (($entity instanceof Player && $damager instanceof Player) && ($entity->getLevel()->getFolderName() === $masterWorld || $entity->getLevel()->getFolderName() === $masterWorld . "-Nether")) {
+    if (($entity instanceof Player && $damager instanceof Player) && ($entity->getWorld()->getFolderName() === $masterWorld || $entity->getWorld()->getFolderName() === $masterWorld . "-Nether")) {
 
       if ($plugin->cfg->get("Island PVP") === "off") {
 
-        $event->setCancelled();
+        $event->cancel();
         return;
       }
     }
   }
-  public function onPickup(InventoryPickupItemEvent $event) {
+  public function onPickup(EntityItemPickupEvent $event) {
 
-    $viewers = $event->getViewers();
+    $viewers = $event->getEntity()->getViewers();
     $entity;
     foreach($viewers as $key => $viewer) {
 
@@ -278,7 +280,7 @@ class EventListener implements Listener {
 
     if ($entity instanceof Player) {
 
-      if ($entity->getLevel()->getFolderName() === $plugin->skyblock->get("Master World") || $entity->getLevel()->getFolderName() === $plugin->skyblock->get("Master World") . "-Nether") {
+      if ($entity->getWorld()->getFolderName() === $plugin->skyblock->get("Master World") || $entity->getWorld()->getFolderName() === $plugin->skyblock->get("Master World") . "-Nether") {
 
         $owner = $plugin->getIslandAtPlayer($entity);
         $filePath = $plugin->getDataFolder() . "Players/" . $owner . ".json";
@@ -288,7 +290,7 @@ class EventListener implements Listener {
 
           if (!$entity->hasPermission("redskyblock.bypass")) {
 
-            $event->setCancelled();
+            $event->cancel();
             return;
           }
         }
@@ -307,7 +309,7 @@ class EventListener implements Listener {
           return;
         } else {
 
-          $event->setCancelled();
+          $event->cancel();
           return;
         }
       }
@@ -317,7 +319,7 @@ class EventListener implements Listener {
 
     $plugin = $this->plugin;
     $player = $event->getPlayer();
-    $spawn = $plugin->getServer()->getDefaultLevel()->getSafeSpawn();
+    $spawn = $plugin->getServer()->getWorldManager()->getDefaultWorld()->getSafeSpawn();
 
     if ($plugin->cfg->get("Spawn Command") === "on") {
 
@@ -329,14 +331,14 @@ class EventListener implements Listener {
     $player = $event->getPlayer();
     $plugin = $this->plugin;
 
-    if ($player->getLevel()->getFolderName() === $plugin->getServer()->getDefaultLevel()->getFolderName() && $plugin->cfg->get("Spawn Hunger") === "off") {
+    if ($player->getWorld()->getFolderName() === $plugin->getServer()->getWorldManager()->getDefaultWorld()->getFolderName() && $plugin->cfg->get("Spawn Hunger") === "off") {
 
-      $event->setCancelled();
+      $event->cancel();
       return;
-    } elseif (($player->getLevel()->getFolderName() === $plugin->skyblock->get("Master World") || $player->getLevel()->getFolderName() === $plugin->skyblock->get("Master World") . "-Nether") && $plugin->cfg->get("Island Hunger") === "off") {
+    } elseif (($player->getWorld()->getFolderName() === $plugin->skyblock->get("Master World") || $player->getWorld()->getFolderName() === $plugin->skyblock->get("Master World") . "-Nether") && $plugin->cfg->get("Island Hunger") === "off") {
 
-      $player->addFood(10);
-      $event->setCancelled();
+      $player->getHungerManager()->addFood(10);
+      $event->cancel();
       return;
     }
   }
@@ -344,46 +346,46 @@ class EventListener implements Listener {
 
     $entity = $event->getEntity();
     $plugin = $this->plugin;
-    $spawn = $plugin->getServer()->getDefaultLevel()->getSafeSpawn();
+    $spawn = $plugin->getServer()->getWorldManager()->getDefaultWorld()->getSafeSpawn();
     $masterWorld = $plugin->skyblock->get("Master World");
 
-    if (($entity instanceof Player && $entity->getLevel()->getFolderName() === $plugin->getServer()->getDefaultLevel()->getFolderName()) && $plugin->cfg->get("Spawn Damage") === "off") {
+    if (($entity instanceof Player && $entity->getWorld()->getFolderName() === $plugin->getServer()->getWorldManager()->getDefaultWorld()->getFolderName()) && $plugin->cfg->get("Spawn Damage") === "off") {
 
-      $event->setCancelled();
+      $event->cancel();
       return;
-    } elseif ($entity instanceof Player && $entity->getLevel()->getFolderName() === $masterWorld || $entity->getLevel()->getFolderName() === $masterWorld . "-Nether") {
+    } elseif ($entity instanceof Player && $entity->getWorld()->getFolderName() === $masterWorld || $entity->getWorld()->getFolderName() === $masterWorld . "-Nether") {
 
-      if ($plugin->cfg->get("Safe Void") && ($entity->getLevel()->getFolderName() === $masterWorld || $entity->getLevel()->getFolderName() === $masterWorld . "-Nether") && $entity->getY() <= 0) {
+      if ($plugin->cfg->get("Safe Void") && ($entity->getWorld()->getFolderName() === $masterWorld || $entity->getWorld()->getFolderName() === $masterWorld . "-Nether") && $entity->getPosition()->getY() <= 0) {
 
         $island = $plugin->getIslandAtPlayer($entity);
         $filePath = $plugin->getDataFolder() . "Players/" . $island . ".json";
         $playerDataEncoded = file_get_contents($filePath);
         $playerData = (array) json_decode($playerDataEncoded);
-        $event->setCancelled(true);
+        $event->cancel();
 
-        if ($entity->getLevel()->getFolderName() === $masterWorld) {
+        if ($entity->getWorld()->getFolderName() === $masterWorld) {
 
           $x = $playerData["Island Spawn"][0];
           $y = $playerData["Island Spawn"][1];
           $z = $playerData["Island Spawn"][2];
-          $entity->teleport(new Position($x, $y, $z, $plugin->getServer()->getLevelByName($masterWorld)));
+          $entity->teleport(new Position($x, $y, $z, $plugin->getServer()->getWorldManager()->getWorldByName($masterWorld)));
           return;
         } else {
 
           $x = $playerData["Nether Spawn"][0];
           $y = $playerData["Nether Spawn"][1];
           $z = $playerData["Nether Spawn"][2];
-          $entity->teleport(new Position($x, $y, $z, $plugin->getServer()->getLevelByName($masterWorld . "-Nether")));
+          $entity->teleport(new Position($x, $y, $z, $plugin->getServer()->getWorldManager()->getWorldByName($masterWorld . "-Nether")));
           return;
         }
       }
-      if ($entity->getGamemode() === 0) {
+      if ($entity->getGamemode() === GameMode::SURVIVAL()) {
 
         if ($event->getBaseDamage() >= $entity->getHealth()) {
 
-          $event->setCancelled();
+          $event->cancel();
           $entity->setHealth($entity->getMaxHealth());
-          $entity->setFood($entity->getMaxFood());
+          $entity->getHungerManager()->setFood($entity->getHungerManager()->getFood());
           $entity->teleport($spawn);
           if (!($plugin->cfg->get("Keep Inventory"))) {
 
@@ -398,7 +400,7 @@ class EventListener implements Listener {
   public function onMove(PlayerMoveEvent $event) {
 
     $player = $event->getPlayer();
-    $level = $player->getLevel();
+    $level = $player->getWorld();
     $plugin = $this->plugin;
 
     if ($plugin->cfg->get("Island Boundaries")) {
@@ -408,7 +410,7 @@ class EventListener implements Listener {
         $island = $plugin->getIslandAtPlayer($player);
         if ($island === null && (!$player->hasPermission("skyblock.bypass"))) {
 
-          $event->setCancelled();
+          $event->cancel();
         }
       }
     }

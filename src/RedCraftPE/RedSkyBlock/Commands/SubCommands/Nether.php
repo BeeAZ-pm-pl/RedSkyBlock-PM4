@@ -4,8 +4,8 @@ namespace RedCraftPE\RedSkyBlock\Commands\SubCommands;
 
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat;
-use pocketmine\level\Position;
-use pocketmine\level\Level;
+use pocketmine\world\Position;
+use pocketmine\world\World;
 
 use RedCraftPE\RedSkyBlock\Tasks\NetherGenerate;
 
@@ -24,7 +24,7 @@ class Nether {
 
       if ($plugin->cfg->get("Nether Islands")) {
 
-        if ($plugin->getServer()->getLevelByName($plugin->skyblock->get("Master World") . "-Nether") instanceof Level) {
+        if ($plugin->getServer()->getWorldManager()->getWorldByName($plugin->skyblock->get("Master World") . "-Nether") instanceof World) {
 
           $skyblockArray = $plugin->skyblock->get("SkyBlock", []);
           $senderName = strtolower($sender->getName());
@@ -36,7 +36,7 @@ class Nether {
               $filePath = $plugin->getDataFolder() . "Players/" . $senderName . ".json";
               $playerDataEncoded = file_get_contents($filePath);
               $playerData = (array) json_decode($playerDataEncoded);
-              $netherWorld = $plugin->getServer()->getLevelByName($plugin->skyblock->get("Master World") . "-Nether");
+              $netherWorld = $plugin->getServer()->getWorldManager()->getWorldByName($plugin->skyblock->get("Master World") . "-Nether");
 
               if ($playerData["Nether Spawn"] === []) {
 
