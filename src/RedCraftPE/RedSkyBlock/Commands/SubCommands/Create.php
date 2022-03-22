@@ -15,6 +15,8 @@ use RedCraftPE\RedSkyBlock\Tasks\Generate;
 use RedCraftPE\RedSkyBlock\Commands\Island;
 
 class Create {
+  
+  public $plugin;
 
   public function __construct($plugin) {
 
@@ -114,23 +116,24 @@ class Create {
             $spawnX = $lastX + $cSpawnVals[0];
             $spawnY = $cSpawnVals[1];
             $spawnZ = $lastZ + $cSpawnVals[2];
-
-            $sender->teleport(new Position($spawnX, $spawnY, $spawnZ, $world));
-            $sender->setImmobile(true);
+            if($sender instanceof \pocketmine\player\Player){
+              $sender->teleport(new Position($spawnX, $spawnY, $spawnZ, $world));
+              $sender->setImmobile(true);
 
             $plugin->getScheduler()->scheduleDelayedTask(new Generate($plugin, $sender, $lastX, $lastZ, $world), 50);
 
-            foreach($itemsArray as $items) {
+              foreach($itemsArray as $items) {
 
-              if (count($itemsArray) > 0) {
+                if (count($itemsArray) > 0) {
 
-                $itemArray = explode(" ", $items);
-                if (count($itemArray) === 3) {
+                  $itemArray = explode(" ", $items);
+                  if (count($itemArray) === 3) {
 
-                  $id = intval($itemArray[0]);
-                  $damage = intval($itemArray[1]);
-                  $count = intval($itemArray[2]);
-                  $sender->getInventory()->addItem(ItemFactory::getInstance()->get($id, $damage, $count));
+                    $id = intval($itemArray[0]);
+                    $damage = intval($itemArray[1]);
+                    $count = intval($itemArray[2]);
+                    $sender->getInventory()->addItem(ItemFactory::getInstance()->get($id, $damage, $count));
+                  }
                 }
               }
             }
