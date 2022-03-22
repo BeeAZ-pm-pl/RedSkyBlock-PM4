@@ -34,9 +34,9 @@ class NetherSpawn {
             $playerDataEncoded = file_get_contents($filePath);
             $playerData = (array) json_decode($playerDataEncoded, true);
 
-            $playerData["Nether Spawn"][0] = (int) round($sender->getX());
-            $playerData["Nether Spawn"][1] = (int) round($sender->getY());
-            $playerData["Nether Spawn"][2] = (int) round($sender->getZ());
+            $playerData["Nether Spawn"][0] = (int) round($sender->getPosition()->getX());
+            $playerData["Nether Spawn"][1] = (int) round($sender->getPosition()->getY());
+            $playerData["Nether Spawn"][2] = (int) round($sender->getPosition()->getZ());
 
             $playerDataEncoded = json_encode($playerData);
             file_put_contents($filePath, $playerDataEncoded);
@@ -62,5 +62,6 @@ class NetherSpawn {
       $sender->sendMessage(TextFormat::RED . "You don't have permission to use this command.");
       return true;
     }
+    return true;
   }
 }
