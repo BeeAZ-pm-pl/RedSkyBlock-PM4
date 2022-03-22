@@ -4,6 +4,7 @@ namespace RedCraftPE\RedSkyBlock\Commands\SubCommands;
 
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat;
+use pocketmine\player\Player;
 
 class Fly {
 
@@ -32,19 +33,20 @@ class Fly {
       if ($masterWorld === $sender->getWorld()->getFolderName() || $masterWorld === $sender->getWorld()->getFolderName() . "-Nether") {
 
         if ($island === $senderName || in_array($senderName, $playerData["Island Members"])) {
+          if($sender instanceof Player){
+            if ($sender->isFlying()) {
 
-          if ($sender->isFlying()) {
+              $sender->setAllowFlight(false);
+              $sender->setFlying(false);
+              $sender->sendMessage(TextFormat::GREEN . "You have disabled flight.");
+              return true;
+            } else {
 
-            $sender->setAllowFlight(false);
-            $sender->setFlying(false);
-            $sender->sendMessage(TextFormat::GREEN . "You have disabled flight.");
-            return true;
-          } else {
-
-            $sender->setAllowFlight(true);
-            $sender->setFlying(true);
-            $sender->sendMessage(TextFormat::GREEN . "You have enabled flight.");
-            return true;
+              $sender->setAllowFlight(true);
+              $sender->setFlying(true);
+              $sender->sendMessage(TextFormat::GREEN . "You have enabled flight.");
+              return true;
+            }
           }
         } else {
 
